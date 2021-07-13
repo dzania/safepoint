@@ -15,7 +15,6 @@ class RegisterUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('email','username','first_name','last_name','password','password2')
-        extra_kwargs = {'password':{'write_only':True}}
 
     # Check if passwords are the same
     def validate(self, attrs):
