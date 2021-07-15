@@ -1,8 +1,12 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { CssBaseline, cssBaseline } from "@material-ui/core";
-import Navbar from "./components/Navbar";
+import Navigation from "./components/Navigation";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
+import Home from "./pages/Home";
 import "./App.css";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,10 +21,17 @@ const useStyles = makeStyles((theme) => ({
 function App() {
   const classes = useStyles();
   return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <Navbar />
-    </div>
+    <Router>
+      <div className={classes.root}>
+        <CssBaseline />
+        <Navigation />
+        <Switch>
+          <Route path="/" exact component={Home} />
+          <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} />
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
