@@ -1,19 +1,22 @@
-import React, { useState, useEffect } from "react";
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import React,{useContext} from "react";
+import { Link } from "react-router-dom";
+import { Redirect } from 'react-router-dom';
 
 export default function Home() {
   return (
     <div>
       <header cass="page-header">
-        <div class="container pt-3">
-          <div class="row align-items-center ">
-            <div class="col-md-5">
-              <h2>SafePoint</h2>
-              <p>lorem ipsum</p>
-            </div>
-            <div class="col-md-5">
-              <LockOutlinedIcon/>
-              </div>
+        <div class="container">
+          <div class="description ">
+            <h1>
+              Safe and elegant way to store all your passwords in one place
+            </h1>
+            <p class="text"></p>
+            <Link to="/register">
+            <button class="btn  btn-lg rounded-pill">
+              Get started
+            </button>
+            </Link>
           </div>
         </div>
       </header>
