@@ -15,16 +15,20 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-)
+from users.views import MyTokenObtainPairView
+from rest_framework_simplejwt.views import TokenRefreshView
+
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/user/',include('users.urls',namespace='users')),
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/manager/',include('manager.urls', namespace='manager')),
+    # Simple jwt view
+    # path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    # Overwriten serializer to also return user id 
+    path('api/token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+
 ]
 
