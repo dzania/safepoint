@@ -4,5 +4,6 @@ from . import views
 app_name = 'manager'
 
 urlpatterns = [
-    path("add-credentials/", views.add_credentials,name="add_credentials")
+    path("credentials/", views.credentials,name="credentials"),
+    path("credential/<str:id>",views.credential,name="detail_credentials"),
 ]

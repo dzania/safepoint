@@ -6,29 +6,53 @@ from rest_framework.serializers import Serializer
 from .models import Credentials
 from .serializers import CredentialsSerializer
 from rest_framework.permissions import IsAuthenticated
+from .encryption import decrypt_password
+from django.core.signing import Signer
+
 
 # Add new credentials to password manager
-@api_view(['POST'])
+# Get all credentials of user and decrypt password
 @permission_classes((IsAuthenticated,))
-def add_credentials(request):
-    serializer = CredentialsSerializer(data=request.data)
+@api_view(['POST','GET'])
+def credentials(request):
+    if request.method == "POST":
+        serializer = CredentialsSerializer(data=request.data)
 
-    if serializer.is_valid():
-        serializer.save()
-        return Response(status=status.HTTP_201_CREATED)
-    return Response(status=status.HTTP_400_BAD_REQUEST)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=status.HTTP_201_CREATED)
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+    
+    elif request.method == "GET":
+        signer = Signer()
+        credentials = Credentials.objects.filter(user_id=request.user.id)
+        serializer = CredentialsSerializer(credentials, many=True)
+
+        for data in serializer.data:
+            data['password'] = signer.unsign_object(data['password'])
+        return Response(serializer.data)
+
     
 
-# Delete credentials by given id    
-@api_view(['DELETE'])
+#Get Delete or Update credential by given id 
+@api_view(['GET','PUT','DELETE'])
 @permission_classes((IsAuthenticated,))
-def remove_credentials(request,id):
+def credential(request,id):
     try:
-        credentials = Credentials.objects.get(id=id)
+        credential = Credentials.objects.get(id=id)
+        serializer = CredentialsSerializer(credential,many=False)
     except Credentials.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
-    credentials.delete()
-    return Response(status=status.HTTP_200_OK)
-
-
+    
+    if request.method == 'GET':
+        serializer.data['password'] = signer.unsign_object(serializer.data['password'])
+        return Response(serializer.data)
+    elif request.method == 'DELETE':
+        credential.delete()
+        return Response(status=status.HTTP_200_OK)
+    elif request.method = 'PUT':
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=status.HTTP_200_OK)    
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
