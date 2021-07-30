@@ -27,7 +27,8 @@ def credentials(request):
         signer = Signer()
         credentials = Credentials.objects.filter(user_id=request.user.id)
         serializer = CredentialsSerializer(credentials, many=True)
-
+        
+        #Decrypt all paswords
         for data in serializer.data:
             data['password'] = signer.unsign_object(data['password'])
         return Response(serializer.data)
@@ -38,6 +39,7 @@ def credentials(request):
 @api_view(['GET','PUT','DELETE'])
 @permission_classes((IsAuthenticated,))
 def credential(request,id):
+    signer = Signer()
     try:
         credential = Credentials.objects.get(id=id)
         serializer = CredentialsSerializer(credential,many=False)
@@ -47,9 +49,11 @@ def credential(request,id):
     if request.method == 'GET':
         serializer.data['password'] = signer.unsign_object(serializer.data['password'])
         return Response(serializer.data)
+
     elif request.method == 'DELETE':
         credential.delete()
         return Response(status=status.HTTP_200_OK)
+
     elif request.method = 'PUT':
         if serializer.is_valid():
             serializer.save()
