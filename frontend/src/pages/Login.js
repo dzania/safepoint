@@ -3,7 +3,6 @@ import "bootstrap/dist/css/bootstrap.css";
 import "./Login.css";
 import AuthService from "../services/auth-service.js";
 import Form from "react-validation/build/form";
-import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 
 const required = (value) => {

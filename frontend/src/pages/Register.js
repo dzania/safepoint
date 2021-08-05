@@ -52,6 +52,8 @@ export default function Register(props) {
 
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
   const [successful, setSuccessful] = useState(false);
@@ -76,6 +78,15 @@ export default function Register(props) {
     setPassword2(password2);
   };
 
+  const onChangeFirstName = (e) => {
+    const firstname = e.target.value;
+    setFirstname(firstname);
+  };
+  const onChangeLastName = (e) => {
+    const lastname = e.target.value;
+    setLastname(lastname);
+  };
+
   const handleRegister = (e) => {
     e.preventDefault();
 
@@ -85,7 +96,14 @@ export default function Register(props) {
     form.current.validateAll();
 
     if (checkBtn.current.context._errors.length === 0) {
-      AuthService.register(username, email, password,password2).then(
+      AuthService.register(
+        username,
+        email,
+        firstname,
+        lastname,
+        password,
+        password2
+      ).then(
         (response) => {
           setMessage(response.data.message);
           setSuccessful(true);
@@ -126,6 +144,27 @@ export default function Register(props) {
                 </div>
                 <div class="form-group">
                   <input
+                    type="username"
+                    class="form-control"
+                    id="firstname"
+                    placeholder="First name"
+                    value={firstname}
+                    onChange={onChangeFirstName}
+                    validations={[required]}
+                  />
+                </div>
+                <div class="form-group">
+                  <input
+                    class="form-control"
+                    id="usernameInput"
+                    placeholder="Last name"
+                    value={lastname}
+                    onChange={onChangeLastName}
+                    validations={[required]}
+                  />
+                </div>
+                <div class="form-group">
+                  <input
                     type="email"
                     class="form-control"
                     id="emailInput"
@@ -159,20 +198,18 @@ export default function Register(props) {
                 </div>
                 <div class="row mx-auto">
                   <div class="col-md-6">
-                    <div class="form-group">
-                      <button
-                        type="submit"
-                        class="btn btn-primary rounded-pill btn-block"
-                      >
-                        Create account
-                      </button>
-                    </div>
+                    <button
+                      type="submit"
+                      class="btn btn-primary rounded-pill btn-block"
+                    >
+                      Create account
+                    </button>
                   </div>
-                </div>
-                <div class="col-md-6 mx-auto">
-                  <a class="login-link" href="/login">
-                    Already have an account?
-                  </a>
+                  <div class="col-md-6 my-auto ">
+                    <a class="login-link" href="/login">
+                      Already have an account?
+                    </a>
+                  </div>
                 </div>
               </div>
             )}
