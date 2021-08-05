@@ -1,3 +1,3 @@
 # Safepoint
 
-## Password manager built with react and django rest
+## Password manager built with React and Django Rest Framework
