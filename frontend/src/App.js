@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import PrivateRoute from "./components/PrivateRoute";
+import PublicRoute from "./components/PublicRoute";
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
@@ -22,9 +23,9 @@ function App() {
       <Router>
           <Navigation />
         <Switch>
-          <Route path="/" exact component={Home} />
-          <Route path="/login" component={Login} />
-          <Route path="/register" component={Register} />
+          <PublicRoute path="/" exact component={Home} />
+          <PublicRoute path="/login" component={Login} />
+          <PublicRoute path="/register" component={Register} />
           <PrivateRoute path="/dashboard" component={Dashboard} />
         </Switch>
       </Router>
