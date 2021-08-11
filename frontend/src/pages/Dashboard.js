@@ -6,15 +6,25 @@ import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
 import userService from "../services/user-service";
-import DeletePopup from '../components/DeletePopup'
+import DeleteCredentialModal from "../components/DeleteCredentialModal";
+import UpdateCredentialModal from "../components/UpdateCredentialModal";
+import AddCredentialModal from "../components/AddCredentialModal";
 
 export default function Dashboard() {
   const username = AuthService.getCurrentUserName();
   const [credentials, setCredentials] = useState([]);
-  const [show, setShow] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
+  const [showUpdate, setShowUpdate] = useState(false);
+  const [showAdd, setShowAdd] = useState(false);
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleCloseDelete = () => setShowDelete(false);
+  const handleShowDelete = () => setShowDelete(true);
+
+  const handleCloseUpdate = () => setShowUpdate(false);
+  const handleShowUpdate = () => setShowUpdate(true);
+
+  const handleCloseAdd = () => setShowAdd(false);
+  const handleShowAdd = () => setShowAdd(true);
 
   useEffect(() => {
     const getCredentials = UserService.getAllCredentials();
@@ -25,9 +35,9 @@ export default function Dashboard() {
 
   const handleEdit = (id) => {
     const updateCredentials = UserService.updateCredentials(id);
-    updateCredentials.then(()=>{
+    updateCredentials.then(() => {
       refreshCredentials();
-    })
+    });
   };
 
   const deleteCredentials = (id) => {
@@ -43,7 +53,7 @@ export default function Dashboard() {
     });
   };
 
-  const handleAdd = () => {
+  const addCredential = () => {
     console.log("prototyp");
   };
 
@@ -52,40 +62,49 @@ export default function Dashboard() {
       <h1 style={{ color: "whitesmoke" }}>Hi! {username}</h1>
       <button
         className="btn btn-success rounded-pill"
-        onClick={() => handleAdd()}
+        onClick={handleShowAdd}
         style={{ margin: "auto", display: "flex" }}
       >
         Add new credentials
       </button>
+      <AddCredentialModal show={showAdd} handleClose={handleCloseAdd} />
       {credentials.map((credential) => {
         return (
-          <Accordion key={credential.id}>
-            <Card style={{ marginTop: "10px" }}>
-              <Accordion.Toggle
-                as={Card.Header}
-                eventKey="0"
-                key={credential.id}
-              >
-                {credential.website}
-              </Accordion.Toggle>
-              <Accordion.Collapse eventKey="0">
-                <Card.Body>
-                  <p>Login: {credential.login}</p>
-                  <p>Password: {credential.password}</p>
-                  <IconButton onClick={handleShow}>
-                    <DeleteIcon />
-                  </IconButton>
-                  <IconButton onClick={() => handleEdit()}>
-                    <EditIcon />
-                  </IconButton>
-                </Card.Body>
-              </Accordion.Collapse>
-            </Card>
-            <DeletePopup show={show}
-            handleClose={handleClose} 
-            handleDelete={()=> deleteCredentials(credential.id)}
-            />
-          </Accordion>
+          <>
+            <Accordion key={credential.id}>
+              <Card style={{ marginTop: "10px" }}>
+                <Accordion.Toggle
+                  as={Card.Header}
+                  eventKey="0"
+                  key={credential.id}
+                >
+                  {credential.website}
+                </Accordion.Toggle>
+                <Accordion.Collapse eventKey="0">
+                  <Card.Body>
+                    <p>Login: {credential.login}</p>
+                    <p>Password: {credential.password}</p>
+                    <IconButton onClick={handleShowDelete}>
+                      <DeleteIcon />
+                    </IconButton>
+                    <IconButton onClick={handleShowUpdate}>
+                      <EditIcon />
+                    </IconButton>
+                  </Card.Body>
+                </Accordion.Collapse>
+              </Card>
+              <DeleteCredentialModal
+                show={showDelete}
+                handleClose={handleCloseDelete}
+                handleDelete={() => deleteCredentials(credential.id)}
+              />
+              <UpdateCredentialModal
+                show={showUpdate}
+                handleClose={handleCloseUpdate}
+                handleEdit={credential.id}
+              />
+            </Accordion>
+          </>
         );
       })}
     </div>

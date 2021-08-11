@@ -5,16 +5,6 @@ import AuthService from "../services/auth-service.js";
 import Form from "react-validation/build/form";
 import CheckButton from "react-validation/build/button";
 
-const required = (value) => {
-  if (!value) {
-    return (
-      <div className="alert alert-danger" role="alert">
-        This field is required!
-      </div>
-    );
-  }
-};
-
 export default function Login(props) {
   const form = useRef();
   const checkBtn = useRef();
@@ -23,6 +13,16 @@ export default function Login(props) {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+
+  const required = (value) => {
+    if (!value) {
+      return (
+        <div className="alert alert-danger" role="alert">
+          This field is required!
+        </div>
+      );
+    }
+  };
 
   const onChangeUsername = (e) => {
     const username = e.target.value;

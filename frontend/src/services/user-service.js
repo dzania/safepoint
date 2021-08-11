@@ -1,5 +1,5 @@
 import axios from "axios";
-import authHeader from './auth-header'
+import authHeader from "./auth-header";
 
 const API_URL = "http://localhost:8000/api/";
 
@@ -29,8 +29,8 @@ instance.interceptors.response.use(
   },
   async (error) => {
     const originalRequest = error.config;
-    let refreshToken = localStorage.getItem("user").refresh;
-if (
+    let refreshToken = JSON.parse(localStorage.getItem("user")).refresh;
+    if (
       refreshToken &&
       error.response.status === 401 &&
       !originalRequest._retry
@@ -50,24 +50,31 @@ if (
   }
 );
 
-
-
 const getAllCredentials = () => {
-  return instance.get(`${API_URL}manager/credentials/`, { headers: authHeader() });
-
+  return instance.get(`${API_URL}manager/credentials/`, {
+    headers: authHeader(),
+  });
 };
 
-const addCredenetials = (body) => {
-  return instance.post(`${API_URL}manager/credentials/`, { headers: authHeader() });
-
+const addCredenetials = (website, login, password) => {
+  const user = JSON.parse(localStorage.getItem("user")).user_id
+  console.log(user)
+  const credential = {user:user, website: website, login: login, password: password };
+  return instance.post(`${API_URL}manager/credentials/`, credential, {
+    headers: authHeader(),
+  });
 };
 
 const updateCredentials = (body) => {
-  return instance.put(`${API_URL}manager/credentials/`, { headers: authHeader() });
+  return instance.put(`${API_URL}manager/credentials/`, {
+    headers: authHeader(),
+  });
 };
 
 const deleteCredentials = (id) => {
-  return instance.delete(`${API_URL}manager/credential/${id}`, { headers: authHeader() });
+  return instance.delete(`${API_URL}manager/credential/${id}`, {
+    headers: authHeader(),
+  });
 };
 
 export default {
@@ -75,5 +82,4 @@ export default {
   addCredenetials,
   updateCredentials,
   deleteCredentials,
-
 };

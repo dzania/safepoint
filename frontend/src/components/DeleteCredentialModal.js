@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 
-export default function DeletePopup(props) {
+export default function DeleteCredentialModal(props) {
   return (
     <>
       <Modal show={props.show} onHide={props.handleClose}>
