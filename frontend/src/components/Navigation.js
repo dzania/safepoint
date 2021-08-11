@@ -45,7 +45,6 @@ export default function Navigation() {
                 <Nav.Link as={Link} to={"/"} onClick={logOut}>
                   Logout
                 </Nav.Link>
-                <Nav.Link>{currentUser.username}</Nav.Link>
               </Nav>
             </Navbar.Collapse>
           </Container>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, {} from "react";
 import Navigation from "./components/Navigation";
 import Register from "./pages/Register";
 import Login from "./pages/Login";

@@ -1,6 +1,5 @@
-import React,{useContext} from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import { Redirect } from 'react-router-dom';
 
 export default function Home() {
   return (

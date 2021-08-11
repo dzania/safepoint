@@ -2,11 +2,9 @@ from django.shortcuts import render
 from rest_framework.decorators import APIView, api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.serializers import Serializer
 from .models import Credentials
 from .serializers import CredentialsSerializer
 from rest_framework.permissions import IsAuthenticated
-from .encryption import decrypt_password
 from django.core.signing import Signer
 
 
@@ -25,7 +23,8 @@ def credentials(request):
     
     elif request.method == "GET":
         signer = Signer()
-        credentials = Credentials.objects.filter(user_id=request.user.id)
+        print(request.user.id)
+        credentials = Credentials.objects.all()
         serializer = CredentialsSerializer(credentials, many=True)
         
         #Decrypt all paswords
@@ -36,8 +35,8 @@ def credentials(request):
     
 
 #Get Delete or Update credential by given id 
-@api_view(['GET','PUT','DELETE'])
 @permission_classes((IsAuthenticated,))
+@api_view(['GET','PUT','DELETE'])
 def credential(request,id):
     signer = Signer()
     try:
@@ -47,14 +46,14 @@ def credential(request,id):
         return Response(status=status.HTTP_404_NOT_FOUND)
     
     if request.method == 'GET':
-        serializer.data['password'] = signer.unsign_object(serializer.data['password'])
+        # serializer.data['password'] = signer.unsign_object(serializer.data['password'])
         return Response(serializer.data)
 
     elif request.method == 'DELETE':
         credential.delete()
         return Response(status=status.HTTP_200_OK)
 
-    elif request.method = 'PUT':
+    elif request.method == 'PUT':
         if serializer.is_valid():
             serializer.save()
             return Response(status=status.HTTP_200_OK)    
