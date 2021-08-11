@@ -41,7 +41,7 @@ def credential(request,id):
     signer = Signer()
     try:
         credential = Credentials.objects.get(id=id)
-        serializer = CredentialsSerializer(credential,many=False)
+        
     except Credentials.DoesNotExist:
         return Response(status=status.HTTP_404_NOT_FOUND)
     
@@ -54,6 +54,8 @@ def credential(request,id):
         return Response(status=status.HTTP_200_OK)
 
     elif request.method == 'PUT':
+        request.data['password'] = signer.sign_object(request.data['password'])
+        serializer = CredentialsSerializer(instance=credential, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(status=status.HTTP_200_OK)    
