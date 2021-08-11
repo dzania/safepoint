@@ -43,6 +43,7 @@ export default function Dashboard() {
   const deleteCredentials = (id) => {
     const deleteCredentials = UserService.deleteCredentials(id);
     deleteCredentials.then(() => {
+      setShowDelete(false);
       refreshCredentials();
     });
   };
@@ -101,7 +102,8 @@ export default function Dashboard() {
               <UpdateCredentialModal
                 show={showUpdate}
                 handleClose={handleCloseUpdate}
-                handleEdit={credential.id}
+                id={credential.id}
+                website={credential.website}
               />
             </Accordion>
           </>

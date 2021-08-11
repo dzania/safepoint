@@ -8,10 +8,10 @@ export default function DeleteCredentialModal(props) {
       <Modal show={props.show} onHide={props.handleClose}>
         <Modal.Body>Are you sure you want to delete?</Modal.Body>
         <Modal.Footer>
-          <Button variant="primary" onClick={props.handleClose}>
+          <Button variant="primary rounded-pill" onClick={props.handleClose}>
             Close
           </Button>
-          <Button variant="danger" onClick={props.handleDelete}>
+          <Button variant="danger rounded-pill" onClick={props.handleDelete}>
             Delete
           </Button>
         </Modal.Footer>

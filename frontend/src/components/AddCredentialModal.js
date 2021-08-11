@@ -72,7 +72,7 @@ export default function AddCredentialModal(props) {
     <Modal show={props.show} onHide={props.handleClose}>
       <Form onSubmit={handleAdd} ref={form}>
         <Modal.Body>
-          <h5>Update Credentials</h5>
+          <h5>Add new credentials</h5>
           <div className="form-group">
             <input
               class="form-control"

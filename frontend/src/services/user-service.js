@@ -57,16 +57,28 @@ const getAllCredentials = () => {
 };
 
 const addCredenetials = (website, login, password) => {
-  const user = JSON.parse(localStorage.getItem("user")).user_id
-  console.log(user)
-  const credential = {user:user, website: website, login: login, password: password };
+  const user = JSON.parse(localStorage.getItem("user")).user_id;
+  console.log(user);
+  const credential = {
+    user: user,
+    website: website,
+    login: login,
+    password: password,
+  };
   return instance.post(`${API_URL}manager/credentials/`, credential, {
     headers: authHeader(),
   });
 };
 
-const updateCredentials = (body) => {
-  return instance.put(`${API_URL}manager/credentials/`, {
+const updateCredentials = (id, website, login, password) => {
+  const user = JSON.parse(localStorage.getItem("user")).user_id;
+  const credential = {
+    user: user,
+    website: website,
+    login: login,
+    password: password,
+  };
+  return instance.put(`${API_URL}manager/credential/${id}`, credential, {
     headers: authHeader(),
   });
 };
