@@ -104,16 +104,12 @@ export default function Register(props) {
         password2
       ).then(
         (response) => {
-          setMessage(response.data.message);
+          setMessage("Account created");
           setSuccessful(true);
         },
         (error) => {
           const resMessage =
-            (error.response &&
-              error.response.data &&
-              error.response.data.message) ||
-            error.message ||
-            error.toString();
+            error.response.data.toString();
 
           setMessage(resMessage);
           setSuccessful(false);
