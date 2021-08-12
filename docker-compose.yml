@@ -1,0 +1,28 @@
+version: "3.7"
+
+services:
+  backend:
+    build:
+      context: ./djangobackend
+      dockerfile: Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_USER=artur
+      - POSTGRES_PASSWORD=Artur90210
+      - POSTGRES_DB=safepoint
+    ports:
+      - "5432:5432"
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    networks:
+      - default
+    depends_on:
+      - backend
