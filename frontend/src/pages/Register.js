@@ -109,7 +109,11 @@ export default function Register(props) {
         },
         (error) => {
           const resMessage =
-            error.response.data.toString();
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
 
           setMessage(resMessage);
           setSuccessful(false);
