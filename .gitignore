@@ -1,4 +1,3 @@
 venv/
-.env
 djangobackend/data/
 safepoint.code-workspace
