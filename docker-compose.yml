@@ -15,8 +15,6 @@ services:
       - POSTGRES_USER=artur
       - POSTGRES_PASSWORD=Artur90210
       - POSTGRES_DB=safepoint
-    ports:
-      - "5432:5432"
   frontend:
     build:
       context: ./frontend
