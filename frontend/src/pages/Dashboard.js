@@ -31,7 +31,7 @@ export default function Dashboard() {
     getCredentials.then((response) => {
       setCredentials(response.data);
     });
-  }, []);
+  }, [credentials]);
 
   const handleEdit = (id) => {
     const updateCredentials = UserService.updateCredentials(id);
@@ -52,10 +52,6 @@ export default function Dashboard() {
     userService.getAllCredentials().then((response) => {
       setCredentials(response.data);
     });
-  };
-
-  const addCredential = () => {
-    console.log("prototyp");
   };
 
   return (
