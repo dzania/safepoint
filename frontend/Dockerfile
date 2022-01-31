@@ -14,5 +14,6 @@ RUN npm install
 # add app
 COPY . ./
 
+RUN export NODE_OPTIONS=--openssl-legacy-provider && yarn build && yarn install --production --ignore-scripts --prefer-offline
 # start app
 CMD ["npm", "start"]
